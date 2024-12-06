@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Debugging</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js",
+            "locar": "https://cdn.jsdelivr.net/npm/locar/dist/locar.module.min.js"
+          }
+        }
+    </script>
+    <script type="module" src=".vscode\main.js"></script>
+    <script>
+        async function startWebcam() {
+            try {
+                // Vraag toegang tot de webcam
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
+                // Voeg webcam-stream toe aan een video-element voor debugging
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.autoplay = true;
+                video.style.position = "absolute";
+                video.style.top = "10px";
+                video.style.left = "10px";
+                video.style.zIndex = "10";
+                document.body.appendChild(video);
+
+                console.log("Webcam gestart!");
+            } catch (error) {
+                console.error("Fout bij toegang tot webcam:", error);
+                alert(
+                    "Webcam toegang is mislukt. Controleer de browserinstellingen en zorg dat je de pagina over HTTPS opent."
+                );
+            }
+        }
+    </script>
+</head>
+<body onload="startWebcam()">
+    <h1 style="position: absolute; top: 20px; left: 20px; z-index: 10; color: white;">
+        Controleer of de webcam werkt
+    </h1>
+</body>
+</html>
